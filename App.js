@@ -5,7 +5,7 @@ import AverageCalculator from './components/AverageCalculator';
 export default function App() {
   return (
     <View style={styles.container}>
-      <AverageCalculator/>
+      <AverageCalculator numberOfGrades="3"/>
     </View>
   );
 }

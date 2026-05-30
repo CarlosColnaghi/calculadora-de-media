@@ -4,14 +4,21 @@ import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 function AverageCalculator(props){
     const [getForm,  setForm] = useState({
         name: "",
-        email: "",
-        grade1: "",
-        grade2: "",
-        grade3: "",
+        email: ""
     });
 
     function updateForm(field, value){
         setForm(form => ({...form, [field]: value}));
+    }
+
+    const [getGrades, setGrades] = useState([])
+    
+    function updateGrade(index, newGrade){
+        setGrades(grades => {
+            const newGrades = [...grades];
+            newGrades[index] = newGrade;
+            return newGrades;
+        });
     }
 
     const [showResponse, setShowResponse] = useState(false);
@@ -23,18 +30,16 @@ function AverageCalculator(props){
     }
 
     function calculateAverageGrades(){
-        setAverage(calculateAverage([getForm.grade1, getForm.grade2, getForm.grade3]))
+        setAverage(calculateAverage(getGrades))
         setShowResponse(true)
     }
 
     function restartForm(){
         setForm({
             name: "",
-            email: "",
-            grade1: "",
-            grade2: "",
-            grade3: "",
+            email: ""
         });
+        setGrades([])
         setShowResponse(false)
     }
 
@@ -44,9 +49,9 @@ function AverageCalculator(props){
             <TextInput placeholder="Nome" style={styles.fields} value={getForm.name} onChangeText={(text) => updateForm("name", text)}/>
             <TextInput placeholder="E-mail" style={styles.fields} value={getForm.email} onChangeText={(text) => updateForm("email", text)}/>
             <View style={styles.gradeContainers}>
-                <TextInput placeholder="Nota 1" style={[styles.fields, styles.gradeFields]} value={getForm.grade1} onChangeText={(text) => updateForm("grade1", text)}/>
-                <TextInput placeholder="Nota 2" style={[styles.fields, styles.gradeFields]} value={getForm.grade2} onChangeText={(text) => updateForm("grade2", text)}/>
-                <TextInput placeholder="Nota 3" style={[styles.fields, styles.gradeFields]} value={getForm.grade3} onChangeText={(text) => updateForm("grade3", text)}/>
+                {Array.from({length: Number(props.numberOfGrades)}).map((_, index) => (
+                    <TextInput key={index} placeholder={`Nota ${index + 1}`} style={[styles.fields, styles.gradeFields]} value={String(getGrades[index] ?? "")} onChangeText={(text) => updateGrade(index, Number(text))}/>
+                ))}
             </View>
             <View style={styles.buttonContainers}>
                 <View style={styles.buttons}>
@@ -60,7 +65,7 @@ function AverageCalculator(props){
                 <View style={styles.responseContainers}>
                     <Text>Nome: {getForm.name}</Text>
                     <Text>E-mail: {getForm.email}</Text>
-                    <Text>Notas: {getForm.grade1}, {getForm.grade2}, {getForm.grade3}</Text>
+                    <Text>Notas: {getGrades.map((grade, index) => (index < getGrades.length-1) ? `${grade}, ` : ` ${grade}`)}</Text>
                     <Text>Média: {getAverage.toFixed(2)}</Text>
                 </View>
             )}
