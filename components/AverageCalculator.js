@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
-function MediaCalculator(props){
+function AverageCalculator(props){
     const [getForm,  setForm] = useState({
         name: "",
         email: "",
@@ -109,4 +109,4 @@ const styles = StyleSheet.create(
     }
 )
 
-export default MediaCalculator;
+export default AverageCalculator;
