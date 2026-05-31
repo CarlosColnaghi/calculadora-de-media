@@ -14,7 +14,7 @@ function AverageCalculator(props){
         setForm(form => ({...form, [field]: value}));
     }
 
-    const [getResponse, setResponse] = useState({
+    const [getResult, setResult] = useState({
         name: "",
         email: "",
         grade1: "",
@@ -23,14 +23,14 @@ function AverageCalculator(props){
         average: ""
     });
 
-    const [showResponse, setShowResponse] = useState(false);
+    const [showResult, setShowResult] = useState(false);
 
     function calculateAverage(values){
         return values.reduce((accumulator, value) => {return accumulator + Number(value)}, 0)/values.length;
     }
 
     function calculateAverageGrades(){
-        setResponse({
+        setResult({
             name: getForm.name,
             email: getForm.email,
             grade1: getForm.grade1,
@@ -38,7 +38,7 @@ function AverageCalculator(props){
             grade3: getForm.grade3,
             average: calculateAverage([getForm.grade1, getForm.grade2, getForm.grade3])
         })
-        setShowResponse(true)
+        setShowResult(true)
     }
 
     function restartForm(){
@@ -49,7 +49,7 @@ function AverageCalculator(props){
             grade2: "",
             grade3: "",
         });
-        setResponse({
+        setResult({
             name: "",
             email: "",
             grade1: "",
@@ -57,7 +57,7 @@ function AverageCalculator(props){
             grade3: "",
             average: ""
         });
-        setShowResponse(false)
+        setShowResult(false)
     }
 
     return(
@@ -78,12 +78,12 @@ function AverageCalculator(props){
                     <Button title="Reiniciar" color="#ff0000" onPress={restartForm}></Button>
                 </View>
             </View>
-            {showResponse && (
-                <View style={styles.responseContainers}>
-                    <Text>Nome: {getResponse.name}</Text>
-                    <Text>E-mail: {getResponse.email}</Text>
-                    <Text>Notas: {getResponse.grade1}, {getResponse.grade2}, {getResponse.grade3}</Text>
-                    <Text>Média: {getResponse.average.toFixed(2)}</Text>
+            {showResult && (
+                <View style={styles.resultContainers}>
+                    <Text>Nome: {getResult.name}</Text>
+                    <Text>E-mail: {getResult.email}</Text>
+                    <Text>Notas: {getResult.grade1}, {getResult.grade2}, {getResult.grade3}</Text>
+                    <Text>Média: {getResult.average.toFixed(2)}</Text>
                 </View>
             )}
         </View>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create(
             margin: 5,
             flex: 1
         },
-        responseContainers: {
+        resultContainers: {
             backgroundColor: "#c9c9c9",
             width: "100%",
             padding: 20,
