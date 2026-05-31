@@ -14,16 +14,30 @@ function AverageCalculator(props){
         setForm(form => ({...form, [field]: value}));
     }
 
-    const [showResponse, setShowResponse] = useState(false);
+    const [getResponse, setResponse] = useState({
+        name: "",
+        email: "",
+        grade1: "",
+        grade2: "",
+        grade3: "",
+        average: ""
+    });
 
-    const [getAverage, setAverage] = useState(0.0);
+    const [showResponse, setShowResponse] = useState(false);
 
     function calculateAverage(values){
         return values.reduce((accumulator, value) => {return accumulator + Number(value)}, 0)/values.length;
     }
 
     function calculateAverageGrades(){
-        setAverage(calculateAverage([getForm.grade1, getForm.grade2, getForm.grade3]))
+        setResponse({
+            name: getForm.name,
+            email: getForm.email,
+            grade1: getForm.grade1,
+            grade2: getForm.grade2,
+            grade3: getForm.grade3,
+            average: calculateAverage([getForm.grade1, getForm.grade2, getForm.grade3])
+        })
         setShowResponse(true)
     }
 
@@ -34,6 +48,14 @@ function AverageCalculator(props){
             grade1: "",
             grade2: "",
             grade3: "",
+        });
+        setResponse({
+            name: "",
+            email: "",
+            grade1: "",
+            grade2: "",
+            grade3: "",
+            average: ""
         });
         setShowResponse(false)
     }
@@ -58,10 +80,10 @@ function AverageCalculator(props){
             </View>
             {showResponse && (
                 <View style={styles.responseContainers}>
-                    <Text>Nome: {getForm.name}</Text>
-                    <Text>E-mail: {getForm.email}</Text>
-                    <Text>Notas: {getForm.grade1}, {getForm.grade2}, {getForm.grade3}</Text>
-                    <Text>Média: {getAverage.toFixed(2)}</Text>
+                    <Text>Nome: {getResponse.name}</Text>
+                    <Text>E-mail: {getResponse.email}</Text>
+                    <Text>Notas: {getResponse.grade1}, {getResponse.grade2}, {getResponse.grade3}</Text>
+                    <Text>Média: {getResponse.average.toFixed(2)}</Text>
                 </View>
             )}
         </View>
